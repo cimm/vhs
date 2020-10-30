@@ -1,6 +1,8 @@
-# VHS
-
-VHS is a personal, private, family “YouTube” mini-website.
+<div align='center'>
+  <img src='assets/vhs.svg' alt='VHS' width='200px'>
+  <p><em>VHS is a personal, private, family “YouTube” mini-website.</em></p>
+  <img src='screenshot.jpg' alt='Screenshot'>
+</div>
 
 ## Why
 
