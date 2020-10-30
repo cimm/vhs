@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+
+import json
+import os
+import sys
+import shlex
+
+if not len(sys.argv) == 3:
+    sys.exit("missing bucket, try './generate path/to/cassettes.json bucket-name'")
+
+FILE = shlex.quote(sys.argv[1])
+BUCKET = shlex.quote(sys.argv[2])
+DURATION = 604800
+SIGN_CMD = f"b2 get-download-url-with-auth --duration {DURATION} {BUCKET} "
+
+cassettes = []
+
+with open(FILE) as json_file:
+    print(f"File {FILE} loaded, generating URLs for {BUCKET} bucket")
+    data = json.load(json_file)
+    for casette in data:
+        if "video" in casette:
+            print(f"+ {casette['video']}")
+            cmd = SIGN_CMD + shlex.quote(casette['video'])
+            casette['videoUrl'] = os.popen(cmd).read().rstrip()
+        else:
+            print(f"- No video filename, skipping")
+
+        if "cover" in casette:
+            print(f"+ {casette['cover']}")
+            cmd = SIGN_CMD + shlex.quote(casette['cover'])
+            casette['coverUrl'] = os.popen(cmd).read().rstrip()
+        else:
+            print(f"- No cover filename, skipping")
+
+        cassettes.append(casette)
+
+with open(FILE, "w") as outfile:
+    outfile.write(json.dumps(cassettes, indent = 2))
+
+print(f"Saved {FILE}, skipped entries have been removed")
