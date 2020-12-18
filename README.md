@@ -8,6 +8,8 @@
 
 This mini-website is a digital video archive of our old [VHS](https://en.wikipedia.org/wiki/VHS) & [Hi8](https://en.wikipedia.org/wiki/8_mm_video_format) family cassettes that were collecting dust in the attic. Magnetic tape decays or molds, cassettes get lost. A digital format can easily be shared or viewed and is easier to backup.
 
+Read the [blog post](https://www.suffix.be/blog/family-youtube/) with the full story.
+
 ## How
 
 The videos and cover images are stored in a [Backblaze B2](https://www.backblaze.com/b2/cloud-storage.html) bucket (free up to 10GB). The [`casettes.json`](cassettes.json) file contains the metadata for each video (filename, title, length, …). A weekly cron job generates [signed URLs](https://www.suffix.be/blog/signed-urls-backblaze-b2/) for the video files, cover images and adds updates to the [`cassettes.json`](cassettes.json) file. A simple HTML page loads the JSON via JavaScript web components and shows a retro-style cover image with the link to the video. Authentication is handled with the standard Apache `.htpasswd` system (not included).
